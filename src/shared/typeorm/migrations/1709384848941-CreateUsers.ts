@@ -30,6 +30,7 @@ export class CreateUsers1709384848941 implements MigrationInterface {
             {
               name: 'telefone',
               type: 'varchar',
+              default: 'S',
             },
             {
               name: 'fg_primeiro_acesso',
