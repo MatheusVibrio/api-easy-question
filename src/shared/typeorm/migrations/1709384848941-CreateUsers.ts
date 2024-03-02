@@ -28,6 +28,14 @@ export class CreateUsers1709384848941 implements MigrationInterface {
               type: 'varchar',
             },
             {
+              name: 'telefone',
+              type: 'varchar',
+            },
+            {
+              name: 'fg_primeiro_acesso',
+              type: 'char(1)',
+            },
+            {
               name: 'avatar',
               type: 'varchar',
               isNullable: true,

@@ -15,6 +15,12 @@ class Usuario {
   senha: string;
 
   @Column()
+  telefone: string;
+
+  @Column()
+  fg_primeiro_acesso: string;
+
+  @Column()
   avatar: string;
 
   @CreateDateColumn()
