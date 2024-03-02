@@ -21,6 +21,7 @@ export default class UsersController {
       email,
       senha,
       telefone,
+      fg_primeiro_acesso: 'S',
     });
 
     return response.json(user);
