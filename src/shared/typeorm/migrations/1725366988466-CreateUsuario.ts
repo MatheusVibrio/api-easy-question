@@ -1,6 +1,6 @@
-import {MigrationInterface, QueryRunner, Table} from "typeorm";
+import {MigrationInterface, QueryRunner, Table, TableForeignKey} from "typeorm";
 
-export class CreateUsers1709384848941 implements MigrationInterface {
+export class CreateUsuario1725366988466 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
       await queryRunner.createTable(
@@ -8,11 +8,11 @@ export class CreateUsers1709384848941 implements MigrationInterface {
           name: 'usuarios',
           columns: [
             {
-              name: 'id_usuario',
-              type: 'uuid',
+              name: "id_usuario",
+              type: "integer",
               isPrimary: true,
-              generationStrategy: 'uuid',
-              default: 'uuid_generate_v4()',
+              isGenerated: true,
+              generationStrategy: "increment"
             },
             {
               name: 'nome',
@@ -50,9 +50,23 @@ export class CreateUsers1709384848941 implements MigrationInterface {
                type: 'timestamp with time zone',
               default: 'now()',
             },
+             {
+              name: 'fk_id_tipo',
+              type: "integer"
+            },
           ],
         })
       )
+
+      // Adição da chave estrangeira `fk_id_endereco` para a tabela `endereco`
+        await queryRunner.createForeignKey("usuarios", new TableForeignKey({
+            columnNames: ["fk_id_tipo"],
+            referencedTableName: "usuario_tipo",
+            referencedColumnNames: ["id_tipo"],
+            name: "FK_TIPO_USER",
+            onDelete: "CASCADE",
+            onUpdate: "CASCADE"
+        }));
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
