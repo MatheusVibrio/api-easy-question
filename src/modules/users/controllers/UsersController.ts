@@ -12,7 +12,7 @@ export default class UsersController {
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
-    const {nome, email, senha, telefone} = request.body;
+    const {nome, email, senha, telefone, fk_id_tipo} = request.body;
 
     const createUser = new CreateUserService
 
@@ -22,6 +22,7 @@ export default class UsersController {
       senha,
       telefone,
       fg_primeiro_acesso: 'S',
+      fk_id_tipo,
     });
 
     return response.json(user);

@@ -3,10 +3,18 @@ import Questao from '../../typeorm/entities/Questao';
 import QuestaoRepository from '../../typeorm/repositories/QuestaoRepository';
 
 class ListUserService {
-  public async execute(): Promise<Questao | undefined> {
+  public async procuraAprovadas(): Promise<number> {
     const questionsRepository = getCustomRepository(QuestaoRepository);
 
-    const questions = questionsRepository.findByAprovadas('teste');
+    const questions = questionsRepository.countAprovadas();
+
+    return questions;
+  }
+
+   public async procuraPorUsuario(id_user: string): Promise<number> {
+    const questionsRepository = getCustomRepository(QuestaoRepository);
+
+    const questions = questionsRepository.countPorUsuario(id_user);
 
     return questions;
   }

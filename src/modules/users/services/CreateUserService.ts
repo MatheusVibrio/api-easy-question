@@ -3,6 +3,7 @@ import { getCustomRepository } from 'typeorm';
 import Usuario from '../../typeorm/entities/User';
 import UsersRepository from '../../typeorm/repositories/UserRepository'
 import { hash } from 'bcryptjs';
+import UsuarioTipoRepository from '@modules/typeorm/repositories/UsuarioTipoRepository';
 
 interface IRequest {
   nome: string;
@@ -10,15 +11,22 @@ interface IRequest {
   senha: string;
   telefone: string;
   fg_primeiro_acesso: string;
+  fk_id_tipo: string;
 }
 
 class CreateUserService {
-  public async execute({ nome, email, senha, telefone}: IRequest): Promise<Usuario> {
+  public async execute({ nome, email, senha, telefone, fk_id_tipo}: IRequest): Promise<Usuario> {
     const UserRepository = getCustomRepository(UsersRepository);
     const emailExists = await UserRepository.findByEmail(email);
+    const vUserTipo = getCustomRepository(UsuarioTipoRepository);
+    const tipo = await vUserTipo.findById(fk_id_tipo);
 
     if (emailExists){
       throw new AppError('Email já cadastrado.');
+    }
+
+    if (!tipo){
+      throw new AppError('Tipo de usuário não encontrado.');
     }
 
     // Encriptografando a senha
@@ -29,6 +37,7 @@ class CreateUserService {
       senha: hashedPassword,
       telefone,
       fg_primeiro_acesso: 'S',
+      fk_id_tipo: tipo,
     });
 
     await UserRepository.save(user);

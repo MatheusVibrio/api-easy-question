@@ -22,6 +22,7 @@ userRouter.post(
       email: Joi.string().email().required(), // validando email
       senha: Joi.string().required(),
       telefone: Joi.string().required(),
+      fk_id_tipo: Joi.number().required(),
     },
   }),
   usersController.create,

@@ -1,49 +1,65 @@
-import AppError from '@shared/errors/AppError';
 import { getCustomRepository } from 'typeorm';
-import Usuario from '../../typeorm/entities/User';
-import UsersRepository from '../../typeorm/repositories/UserRepository'
-import { compare, hash } from 'bcryptjs';
-import { sign } from 'jsonwebtoken';
-import authConfig from '@config/auth'
+import QuestaoRepository from '@modules/typeorm/repositories/QuestaoRepository';
+import AppError from '@shared/errors/AppError';
+import UsersRepository from '@modules/typeorm/repositories/UserRepository';
+import DificuldadeRepository from '@modules/typeorm/repositories/DificuldadeRepository';
+import DisciplinaRepository from '@modules/typeorm/repositories/DisciplinaRepository';
+import QuestaoTipoRepository from '@modules/typeorm/repositories/QuestaoTipoRepository';
+import Questao from '@modules/typeorm/entities/Questao';
 
 interface IRequest {
-  email: string;
-  senha: string;
+  enunciado: string;
+  fg_aprovada: string;
+  fk_tipo: string;
+  fk_id_usuario: string;
+  fk_id_dificuldade: string;
+  fk_id_disciplina: string;
 }
 
-interface IResponse {
-  user: Usuario,
-  token: String;
-}
+class CreateQuestaoService {
+  public async execute({ enunciado, fg_aprovada, fk_tipo, fk_id_usuario, fk_id_dificuldade, fk_id_disciplina}: IRequest): Promise<Questao> {
+    const vQuestionRepository = getCustomRepository(QuestaoRepository);
+    const vUser = getCustomRepository(UsersRepository);
+    const vDificuldade = getCustomRepository(DificuldadeRepository);
+    const vDisciplina = getCustomRepository(DisciplinaRepository);
+    const vQuestaoTipo = getCustomRepository(QuestaoTipoRepository);
 
-class CreateSessionsService {
-  public async execute({email, senha}: IRequest): Promise<IResponse> {
-    const UserRepository = getCustomRepository(UsersRepository);
-    // Achando email
-    const user = await UserRepository.findByEmail(email);
 
-    if (!user) {
-      throw new AppError('Email ou senha incorreto(s).',401);
+    const tipo = await vQuestaoTipo.findById(fk_tipo);
+    const user = await vUser.findByid(fk_id_usuario);
+    const dificuldade = await vDificuldade.findById(fk_id_dificuldade);
+    const disciplina = await vDisciplina.findById(fk_id_disciplina);
+
+    if (!tipo){
+      throw new AppError('Tipo de questão não encontrado.');
     }
 
-    // Comparando a senha encriptografada com a digitada
-    const senhaConfirmado = await compare(senha, user.senha)
-
-    if (!senhaConfirmado) {
-      throw new AppError('Email ou senha incorreto(s).',401);
+    if (!user){
+      throw new AppError('Usuário não encontrado.');
     }
 
-    // No campo subject ele irá retornar o id do usuário para facilitar no front-end
-    const token = sign({}, authConfig.jwt.secret, {
-      subject: user.id_usuario,
-      expiresIn: authConfig.jwt.expiresIn,
-    })
+    if (!dificuldade){
+      throw new AppError('Dificuldade não encontrada.');
+    }
 
-    return {
-      user,
-      token,
-    };
+    if (!disciplina){
+      throw new AppError('Disciplina não encontrada.');
+    }
+
+    const question = vQuestionRepository.create({
+      enunciado,
+      fg_aprovada: 'N',
+      fk_tipo: tipo,
+      fk_id_usuario: user,
+      fk_id_dificuldade: dificuldade,
+      fk_id_disciplina: disciplina,
+    });
+
+    await vQuestionRepository.save(question);
+
+    return question;
+
   }
 }
 
-export default CreateSessionsService;
+export default CreateQuestaoService;

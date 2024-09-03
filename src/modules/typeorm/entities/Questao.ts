@@ -7,7 +7,7 @@ import Disciplina from "./Disciplina";
 @Entity('questao')
 class Questao {
   @PrimaryGeneratedColumn('increment')
-  id_dificuldade: number;
+  id_questao: number;
 
   @Column()
   enunciado: string;
@@ -17,7 +17,7 @@ class Questao {
 
   @ManyToOne(() => QuestaoTipo)
   @JoinColumn({ name: 'fk_tipo' })
-  fk_id_tipo: QuestaoTipo;
+  fk_tipo: QuestaoTipo;
 
   @ManyToOne(() => Usuario)
   @JoinColumn({ name: 'fk_id_usuario' })
