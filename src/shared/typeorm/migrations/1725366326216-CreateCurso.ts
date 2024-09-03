@@ -22,6 +22,26 @@ export class CreateCurso1725366326216 implements MigrationInterface {
           ],
         })
       )
+
+       // Inserção dos dados iniciais
+       await queryRunner.query(`
+        INSERT INTO curso (descricao) VALUES
+        ('ADMINISTRAÇÃO'),
+        ('CIÊNCIAS CONTÁBEIS'),
+        ('DIREITO'),
+        ('EDUCAÇÃO FÍSICA'),
+        ('ENFERMAGEM'),
+        ('ENGENHARIA CIVIL'),
+        ('ENGENHARIA DE SOFTWARE'),
+        ('ENGENHARIA MECÂNICA'),
+        ('FARMÁCIA'),
+        ('FISIOTERAPIA'),
+        ('MEDICINA'),
+        ('ODONTOLOGIA'),
+        ('PEDAGOGIA'),
+        ('PSICOLOGIA');
+    `);
+
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

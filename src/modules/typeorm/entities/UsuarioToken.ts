@@ -2,12 +2,12 @@ import { Column, CreateDateColumn, Entity, Generated, PrimaryGeneratedColumn, Up
 
 @Entity('usuario_tokens')
 class UsuarioToken {
-  @PrimaryGeneratedColumn('uuid')
-  id_usuario_tokens: string;
+  @PrimaryGeneratedColumn('increment')
+  id_usuario_tokens: number;
 
   @Column()
-  @Generated('uuid')
-  token: string;
+  @PrimaryGeneratedColumn('increment')
+  token: number;
 
   @Column()
   fk_usuario: string;

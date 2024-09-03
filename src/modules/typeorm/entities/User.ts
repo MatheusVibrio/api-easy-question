@@ -1,9 +1,10 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import UserTipo from "./UserTipo";
 
 @Entity('usuarios')
 class Usuario {
-  @PrimaryGeneratedColumn('uuid')
-  id_usuario: string;
+  @PrimaryGeneratedColumn('increment')
+  id_usuario: number;
 
   @Column()
   nome: string;
@@ -28,6 +29,10 @@ class Usuario {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @ManyToOne(() => UserTipo)
+  @JoinColumn({ name: 'fk_id_tipo' })
+  fk_id_tipo: UserTipo;
 }
 
 export default Usuario;

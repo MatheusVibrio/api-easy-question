@@ -16,20 +16,24 @@ export class CreateUsuario1725366988466 implements MigrationInterface {
             },
             {
               name: 'nome',
-              type: 'varchar'
+              type: "varchar",
+              length: "100",
             },
             {
               name: 'email',
-              type: 'varchar',
+              type: "varchar",
+              length: "100",
               isUnique: true,
             },
             {
               name: 'senha',
-              type: 'varchar',
+              type: "varchar",
+              length: "100"
             },
             {
               name: 'telefone',
-              type: 'varchar',
+              type: "varchar",
+              length: "20"
             },
             {
               name: 'fg_primeiro_acesso',
@@ -37,7 +41,8 @@ export class CreateUsuario1725366988466 implements MigrationInterface {
             },
             {
               name: 'avatar',
-              type: 'varchar',
+              type: "varchar",
+              length: "100",
               isNullable: true,
             },
             {

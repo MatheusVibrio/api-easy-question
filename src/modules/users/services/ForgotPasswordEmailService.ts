@@ -1,7 +1,7 @@
 import AppError from '@shared/errors/AppError';
 import { getCustomRepository } from 'typeorm';
-import UsersRepository from '../typeorm/repositories/UserRepository';
-import UserTokenRepository from '../typeorm/repositories/UserTokenRepository';
+import UsersRepository from '../../typeorm/repositories/UserRepository';
+import UserTokenRepository from '../../typeorm/repositories/UserTokenRepository';
 
 interface IRequest {
   email: string;
