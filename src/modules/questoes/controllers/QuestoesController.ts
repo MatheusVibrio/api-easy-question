@@ -4,6 +4,7 @@ import CreateQuestaoService from '../services/CreateQuestaoService';
 import CreateMarcadorService from '../services/CreateMarcadorService';
 import CreateRespostaService from '../services/CreateRespostaService';
 import DeleteQuestion from '../services/DeleteQuestion';
+import UpdateQuestaoService from '../services/UpdateQuestaoService';
 
 export default class QuestoesController {
   public async aprovadas(request: Request, response: Response): Promise<Response> {
@@ -37,7 +38,7 @@ export default class QuestoesController {
 
     const question = await createUser.execute({
       enunciado,
-      fg_aprovada: 'N',
+      fg_aprovada: 'A',
       fk_tipo,
       fk_id_usuario,
       fk_id_dificuldade,
@@ -90,6 +91,54 @@ export default class QuestoesController {
     return response.json(questoes)
   }
 
+   public async minhasQuestoesReprovadas(request: Request, response: Response): Promise<Response> {
+    const id_user = request.params.id_user;
+    const listQuestion = new ListQuestao();
+
+    if (!id_user) {
+      return response.status(400).json({
+        status: 'error',
+        message: 'É obrigatório informar o id_user.',
+      });
+    }
+
+    const questoes = await listQuestion.listaQuestoesReprovadas(id_user);
+
+    return response.json(questoes)
+  }
+
+     public async minhasQuestoesAprovadas(request: Request, response: Response): Promise<Response> {
+    const id_user = request.params.id_user;
+    const listQuestion = new ListQuestao();
+
+    if (!id_user) {
+      return response.status(400).json({
+        status: 'error',
+        message: 'É obrigatório informar o id_user.',
+      });
+    }
+
+    const questoes = await listQuestion.listaQuestoesAprovadas(id_user);
+
+    return response.json(questoes)
+  }
+
+  public async detalhesQuestoes(request: Request, response: Response): Promise<Response> {
+    const id_questao = request.params.id_questao;
+    const listQuestion = new ListQuestao();
+
+    if (!id_questao) {
+      return response.status(400).json({
+        status: 'error',
+        message: 'É obrigatório informar o id_questao.',
+      });
+    }
+
+    const questao = await listQuestion.listaDetalhes(id_questao);
+
+    return response.json(questao)
+  }
+
   public async deletaQuestao(request: Request, response: Response): Promise<Response> {
     const id_questao = request.params.id_questao;
     const deletaQuestao = new DeleteQuestion();
@@ -104,6 +153,26 @@ export default class QuestoesController {
     const questoes = await deletaQuestao.deleta(id_questao);
 
     return response.json(questoes)
+  }
+
+   public async update(request: Request, response: Response): Promise<Response> {
+    const { fg_aprovada, id_questao} = request.body;
+
+    try {
+      const updateQuestion = new UpdateQuestaoService();
+      const updatedQuestion = await updateQuestion.execute({
+        fg_aprovada,
+        id_questao,
+      });
+
+      return response.json(updatedQuestion);
+    } catch (error) {
+      console.error('Erro ao atualizar a questão:', error);
+      return response.status(500).json({
+        status: 'error',
+        message: 'Internal Server Error',
+      });
+    }
   }
 
 

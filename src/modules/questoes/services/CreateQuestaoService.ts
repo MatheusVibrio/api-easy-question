@@ -48,7 +48,7 @@ class CreateQuestaoService {
 
     const question = vQuestionRepository.create({
       enunciado,
-      fg_aprovada: 'N',
+      fg_aprovada: 'A',
       fk_tipo: tipo,
       fk_id_usuario: user,
       fk_id_dificuldade: dificuldade,

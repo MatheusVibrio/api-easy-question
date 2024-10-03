@@ -50,11 +50,79 @@ public async listaQuestoesUser(id_user: string): Promise<number> {
       inner join questao_tipo tp on (tp.id_tipo = qt.fk_tipo)
       inner join questao_dificuldade df on (df.id_dificuldade = qt.fk_id_dificuldade)
       where qt.fk_id_usuario = $1
+      order by qt.enunciado asc;
+    `;
+
+    const result = await this.query(query, [id_user]);
+
+    return result;
+}
+
+public async listaQuestoesUserReprovadas(id_user: string): Promise<number> {
+  const query = `
+      select qt.id_questao,
+             qt.enunciado,
+             cs.descricao as curso,
+             ds.descricao as disciplina,
+             tp.descricao as tipo,
+             df.descricao as dificuldade
+      from questao qt
+      inner join disciplina ds on (ds.id_disciplina = qt.fk_id_disciplina)
+      inner join curso cs on (ds.fk_id_curso = cs.id_curso)
+      inner join questao_tipo tp on (tp.id_tipo = qt.fk_tipo)
+      inner join questao_dificuldade df on (df.id_dificuldade = qt.fk_id_dificuldade)
+      where qt.fk_id_usuario = $1
+      and qt.fg_aprovada = 'N'
+      order by qt.enunciado asc;
+    `;
+
+    const result = await this.query(query, [id_user]);
+
+    return result;
+}
+
+public async listaQuestoesUserAprovadas(id_user: string): Promise<number> {
+  const query = `
+      select qt.id_questao,
+             qt.enunciado,
+             cs.descricao as curso,
+             ds.descricao as disciplina,
+             tp.descricao as tipo,
+             df.descricao as dificuldade
+      from questao qt
+      inner join disciplina ds on (ds.id_disciplina = qt.fk_id_disciplina)
+      inner join curso cs on (ds.fk_id_curso = cs.id_curso)
+      inner join questao_tipo tp on (tp.id_tipo = qt.fk_tipo)
+      inner join questao_dificuldade df on (df.id_dificuldade = qt.fk_id_dificuldade)
+      where qt.fk_id_usuario = $1
       and qt.fg_aprovada = 'S'
       order by qt.enunciado asc;
     `;
 
     const result = await this.query(query, [id_user]);
+
+    return result;
+}
+
+public async listaQuestaoDetalhes(id_questao: string): Promise<any[]> {
+  const query = `
+      select qt.id_questao,
+             qt.enunciado,
+             cs.descricao as curso,
+             ds.descricao as disciplina,
+             df.descricao as dificuldade,
+             qr.descricao as resposta,
+             qr.fg_correta
+      from questao qt
+      inner join disciplina ds on (ds.id_disciplina = qt.fk_id_disciplina)
+      inner join curso cs on (ds.fk_id_curso = cs.id_curso)
+      inner join questao_tipo tp on (tp.id_tipo = qt.fk_tipo)
+      inner join questao_dificuldade df on (df.id_dificuldade = qt.fk_id_dificuldade)
+      left join questao_resposta qr on (qr.fk_id_questao = qt.id_questao)
+      where qt.id_questao  = $1
+    `;
+
+    const result = await this.query(query, [id_questao]);
 
     return result;
 }
