@@ -1,5 +1,6 @@
 import { Request, Response} from 'express';
 import CreateDisciplinaService from '../services/CreateDisciplinaService';
+import ListDiscplinaService from '../services/ListDisciplinaService';
 
 
 export default class DisciplinaController {
@@ -15,4 +16,13 @@ export default class DisciplinaController {
 
     return response.json(disciplina);
   }
+
+  public async list(request: Request, response: Response): Promise<Response> {
+    const listDisciplina = new ListDiscplinaService();
+
+    const disciplinas = await listDisciplina.listarTodas();
+
+    return response.json(disciplinas)
+  }
+
 }
