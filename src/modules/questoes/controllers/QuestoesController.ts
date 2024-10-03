@@ -3,6 +3,7 @@ import ListQuestao from "../services/ListQuestaoService";
 import CreateQuestaoService from '../services/CreateQuestaoService';
 import CreateMarcadorService from '../services/CreateMarcadorService';
 import CreateRespostaService from '../services/CreateRespostaService';
+import DeleteQuestion from '../services/DeleteQuestion';
 
 export default class QuestoesController {
   public async aprovadas(request: Request, response: Response): Promise<Response> {
@@ -72,5 +73,38 @@ export default class QuestoesController {
 
     return response.json(vresposta);
   }
+
+  public async minhasQuestoes(request: Request, response: Response): Promise<Response> {
+    const id_user = request.params.id_user;
+    const listQuestion = new ListQuestao();
+
+    if (!id_user) {
+      return response.status(400).json({
+        status: 'error',
+        message: 'É obrigatório informar o id_user.',
+      });
+    }
+
+    const questoes = await listQuestion.listaQuestoes(id_user);
+
+    return response.json(questoes)
+  }
+
+  public async deletaQuestao(request: Request, response: Response): Promise<Response> {
+    const id_questao = request.params.id_questao;
+    const deletaQuestao = new DeleteQuestion();
+
+    if (!id_questao) {
+      return response.status(400).json({
+        status: 'error',
+        message: 'É obrigatório informar o id_questao.',
+      });
+    }
+
+    const questoes = await deletaQuestao.deleta(id_questao);
+
+    return response.json(questoes)
+  }
+
 
 }

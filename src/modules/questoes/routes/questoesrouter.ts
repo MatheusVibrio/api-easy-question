@@ -8,8 +8,9 @@ import QuestoesController from '../controllers/QuestoesController';
 const questionRouter = Router();
 const questionController = new QuestoesController();
 
-questionRouter.get('/', isAuthenticated ,questionController.aprovadas);
-questionRouter.get('/:id_user', isAuthenticated ,questionController.questoesUser);
+questionRouter.get('/', isAuthenticated ,questionController.aprovadas); // numero de questões aprovadas
+questionRouter.get('/:id_user', isAuthenticated ,questionController.questoesUser); // número de questões do user
+questionRouter.get('/minhasquestoes/:id_user', isAuthenticated ,questionController.minhasQuestoes); // questões aprovadas por usuário
 
 questionRouter.post(
   '/',
@@ -48,6 +49,6 @@ questionRouter.post(
   questionController.respostas,
 );
 
-
+questionRouter.delete('/:id_questao', isAuthenticated ,questionController.deletaQuestao); // questões aprovadas por usuário
 
 export default questionRouter

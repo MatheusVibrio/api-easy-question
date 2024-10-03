@@ -18,6 +18,14 @@ class ListUserService {
 
     return questions;
   }
+
+   public async listaQuestoes(id_user: string): Promise<number> {
+    const questionsRepository = getCustomRepository(QuestaoRepository);
+
+    const questions = questionsRepository.listaQuestoesUser(id_user);
+
+    return questions;
+  }
 }
 
 export default ListUserService;
