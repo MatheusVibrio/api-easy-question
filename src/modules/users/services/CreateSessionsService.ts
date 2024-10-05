@@ -14,36 +14,47 @@ interface IRequest {
 interface IResponse {
   user: Usuario,
   token: String;
+  isSupervisor: boolean;
 }
 
 class CreateSessionsService {
-  public async execute({email, senha}: IRequest): Promise<IResponse> {
+  public async execute({ email, senha }: IRequest): Promise<IResponse> {
     const UserRepository = getCustomRepository(UsersRepository);
-    // Achando email
-    const user = await UserRepository.findByEmail(email);
+
+    // Achando email e carregando o relacionamento fk_id_tipo
+    const user = await UserRepository.findOne({
+        where: { email },
+        relations: ['fk_id_tipo'], // Carregando a relação com UserTipo
+    });
 
     if (!user) {
-      throw new AppError('Email ou senha incorreto(s).',401);
+        throw new AppError('Email ou senha incorreto(s).', 401);
     }
 
     // Comparando a senha encriptografada com a digitada
-    const senhaConfirmado = await compare(senha, user.senha)
+    const senhaConfirmado = await compare(senha, user.senha);
 
     if (!senhaConfirmado) {
-      throw new AppError('Email ou senha incorreto(s).',401);
+        throw new AppError('Email ou senha incorreto(s).', 401);
     }
 
-    // No campo subject ele irá retornar o id do usuário para facilitar no front-end
+    // Verificando se o usuário é supervisor com base no fg_supervisor
+    const isSupervisor = user.fk_id_tipo && user.fk_id_tipo.fg_supervisor === 'S';
+
+    // Gerando o token
     const token = sign({}, authConfig.jwt.secret, {
-    subject: user.id_usuario.toString(),  // Conversão para string
-    expiresIn: authConfig.jwt.expiresIn,
+        subject: user.id_usuario.toString(),
+        expiresIn: authConfig.jwt.expiresIn,
     });
 
     return {
-      user,
-      token,
+        user,
+        token,
+        isSupervisor,
     };
-  }
+}
+
+
 }
 
 export default CreateSessionsService;

@@ -13,6 +13,12 @@ class CursoRepository extends Repository<Curso>{
 
   return curso;
 }
+
+  // Método para listar todos os cursos
+  public async findAll(): Promise<Curso[]> {
+    const cursos = await this.find();
+    return cursos;
+  }
 }
 
 export default CursoRepository;
