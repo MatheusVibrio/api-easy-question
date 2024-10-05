@@ -1,10 +1,32 @@
-Ao clonar para instalar a node_modules dar: yarn
+## EasyQuestion
 
-Para rodar: yarn dev
+Este projeto é uma API para gerenciar questões de um sistema educacional, permitindo o cadastro de usuários, questões, respostas, marcadores e outros recursos.
 
-Criar o banco a primeira vez no docker (não se esqueça de baixar): docker run --name postgres -e POSTGRES_PASSWORD=docker -p 5432:5432 -d postgres
+## Requisitos
 
-Para rodar o banco após já estar criado: docker run postgres
+- **Node.js** >= 12.x
+- **Yarn**
+- **PostgreSQL** rodando localmente ou configurado no `ormconfig_exemple`
 
-/questoes/1 -> Retorna a quantidade de questões daquele usuário
-/questoes -> Retorna quantas questões aprovadas o sistema tem
+## Stack utilizada
+
+**Back-end:** Node.js, Express, TypeORM
+<br>
+**Banco de Dados:** PostgreSQL
+
+## Para rodar:
+
+```bash
+yarn
+yarn dev
+```
+
+## Protótipo
+
+**Segue abaixo o link do Figma:** <br>
+https://www.figma.com/design/70A3KTm9dPeM8pc52oYmrv/Easy-Question?node-id=0-1&t=4aTPupy7G0Uvn0KU-1
+
+## Rotas
+
+**Segue abaixo o link das rotas:** <br>
+https://docs.google.com/document/d/14h52PR7GyiFs0Zvd3GrlzjTYgVmI5WmVlR-FvaOwyj4/edit
