@@ -25,4 +25,13 @@ export default class DisciplinaController {
     return response.json(disciplinas)
   }
 
+  public async listPorCurso(request: Request, response: Response): Promise<Response> {
+    const fk_id_curso = request.params.id_curso;
+    const listDisciplina = new ListDiscplinaService();
+
+    const disciplinas = await listDisciplina.listarPorCurso(fk_id_curso);
+
+    return response.json(disciplinas)
+  }
+
 }

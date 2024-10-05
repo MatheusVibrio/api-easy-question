@@ -15,6 +15,10 @@ export class CreateProvaQuestao1725369603335 implements MigrationInterface {
               generationStrategy: "increment"
             },
             {
+              name: 'ordem',
+              type: "integer"
+            },
+            {
               name: 'fk_id_questao',
               type: "integer"
             },

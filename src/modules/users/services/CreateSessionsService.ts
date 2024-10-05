@@ -21,11 +21,12 @@ class CreateSessionsService {
   public async execute({ email, senha }: IRequest): Promise<IResponse> {
     const UserRepository = getCustomRepository(UsersRepository);
 
-    // Achando email e carregando o relacionamento fk_id_tipo
+    // Achando email e carregando o relacionamento fk_id_tipo e fk_id_curso
     const user = await UserRepository.findOne({
-        where: { email },
-        relations: ['fk_id_tipo'], // Carregando a relação com UserTipo
+    where: { email },
+    relations: ['fk_id_tipo', 'fk_id_curso'], // Carregando as relações com UserTipo e Curso
     });
+
 
     if (!user) {
         throw new AppError('Email ou senha incorreto(s).', 401);

@@ -7,6 +7,9 @@ class ProvaQuestao {
   @PrimaryGeneratedColumn('increment')
   id_lcto: number;
 
+  @Column()
+  ordem: number;
+
   @ManyToOne(() => Questao)
   @JoinColumn({ name: 'fk_id_questao' })
   fk_id_questao: Questao;

@@ -11,6 +11,14 @@ class ListDiscplinaService {
       return discplinas;
     }
 
+      public async listarPorCurso(id_curso: string): Promise<Disciplina[]> {
+      const disciplinaRepository = getCustomRepository(DisciplinaRepository);
+
+      const discplinas = disciplinaRepository.findByCurso(id_curso);
+
+      return discplinas;
+    }
+
 }
 
 export default ListDiscplinaService;

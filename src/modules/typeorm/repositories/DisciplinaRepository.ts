@@ -18,6 +18,16 @@ class DisciplinaRepository extends Repository<Disciplina> {
     const disciplinas = await this.find(); // Retorna todas as disciplinas
     return disciplinas;
   }
+
+  public async findByCurso(fk_id_curso: string): Promise<Disciplina[]> {
+  const disciplinas = await this.find({
+    where: {
+      fk_id_curso,
+    },
+  });
+
+  return disciplinas;
+}
 }
 
 export default DisciplinaRepository;

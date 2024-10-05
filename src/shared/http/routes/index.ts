@@ -5,6 +5,7 @@ import questionRouter from '@modules/questoes/routes/questoesrouter'
 import { Router } from 'express';
 import disciplinasrouter from '@modules/disciplina/routes/disciplinasrouter';
 import cursoRouter from '@modules/cursos/routes/cursoroutes';
+import provaRouter from '@modules/provas/routes/provaRouter';
 
 const routes = Router();
 
@@ -19,5 +20,7 @@ routes.use('/questoes', questionRouter); // rotas de questões
 routes.use('/disciplina', disciplinasrouter); // rotas de disciplinas
 
 routes.use('/cursos', cursoRouter); // rotas de cursos
+
+routes.use('/provas', provaRouter); // rotas de provas
 
 export default routes;
