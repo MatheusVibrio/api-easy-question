@@ -7,7 +7,7 @@ import QuestoesController from '../controllers/QuestoesController';
 const questionRouter = Router();
 const questionController = new QuestoesController();
 
-questionRouter.get('/', isAuthenticated ,questionController.aprovadas); // numero de questões aprovadas
+questionRouter.get('/aprovadas', isAuthenticated ,questionController.aprovadas); // numero de questões aprovadas
 questionRouter.get('/:id_user', isAuthenticated ,questionController.questoesUser); // número de questões do user
 
 questionRouter.get('/minhasquestoes/:id_user', isAuthenticated ,questionController.minhasQuestoes); // todas questões por usuário (detalhes)
