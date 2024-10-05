@@ -1,5 +1,6 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import UserTipo from "./UserTipo";
+import Curso from "./Curso";
 
 @Entity('usuarios')
 class Usuario {
@@ -33,6 +34,10 @@ class Usuario {
   @ManyToOne(() => UserTipo)
   @JoinColumn({ name: 'fk_id_tipo' })
   fk_id_tipo: UserTipo;
+
+  @ManyToOne(() => Curso)
+  @JoinColumn({ name: 'fk_id_curso' })
+  fk_id_curso: Curso;
 }
 
 export default Usuario;

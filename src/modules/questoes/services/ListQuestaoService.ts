@@ -43,6 +43,14 @@ class ListUserService {
     return questions;
   }
 
+    public async listaQuestoesAnalise(id_user: string): Promise<number> {
+    const questionsRepository = getCustomRepository(QuestaoRepository);
+
+    const questions = questionsRepository.listaQuestoesUserAnalise(id_user);
+
+    return questions;
+  }
+
   public async listaDetalhes(id_questao: string): Promise<any> {
   const questionsRepository = getCustomRepository(QuestaoRepository);
 

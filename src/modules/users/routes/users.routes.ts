@@ -23,6 +23,7 @@ userRouter.post(
       senha: Joi.string().required(),
       telefone: Joi.string().required(),
       fk_id_tipo: Joi.number().required(),
+      fk_id_curso: Joi.number().required(),
     },
   }),
   usersController.create,

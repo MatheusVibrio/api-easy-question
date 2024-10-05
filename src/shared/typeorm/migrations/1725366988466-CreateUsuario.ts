@@ -55,20 +55,34 @@ export class CreateUsuario1725366988466 implements MigrationInterface {
                type: 'timestamp with time zone',
               default: 'now()',
             },
-             {
+            {
               name: 'fk_id_tipo',
+              type: "integer"
+            },
+            {
+              name: 'fk_id_curso',
               type: "integer"
             },
           ],
         })
       )
 
-      // Adição da chave estrangeira `fk_id_endereco` para a tabela `endereco`
+      // Adição da chave estrangeira `fk_id_tipo` para a tabela `usuario_tipo`
         await queryRunner.createForeignKey("usuarios", new TableForeignKey({
             columnNames: ["fk_id_tipo"],
             referencedTableName: "usuario_tipo",
             referencedColumnNames: ["id_tipo"],
             name: "FK_TIPO_USER",
+            onDelete: "CASCADE",
+            onUpdate: "CASCADE"
+        }));
+
+         // Adição da chave estrangeira `fk_id_curso` para a tabela `curso`
+        await queryRunner.createForeignKey("usuarios", new TableForeignKey({
+            columnNames: ["fk_id_curso"],
+            referencedTableName: "curso",
+            referencedColumnNames: ["id_curso"],
+            name: "FK_CURSO_USER",
             onDelete: "CASCADE",
             onUpdate: "CASCADE"
         }));

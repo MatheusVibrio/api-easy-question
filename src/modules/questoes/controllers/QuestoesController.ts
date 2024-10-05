@@ -107,7 +107,23 @@ export default class QuestoesController {
     return response.json(questoes)
   }
 
-     public async minhasQuestoesAprovadas(request: Request, response: Response): Promise<Response> {
+  public async minhasQuestoesAnalise(request: Request, response: Response): Promise<Response> {
+    const id_user = request.params.id_user;
+    const listQuestion = new ListQuestao();
+
+    if (!id_user) {
+      return response.status(400).json({
+        status: 'error',
+        message: 'É obrigatório informar o id_user.',
+      });
+    }
+
+    const questoes = await listQuestion.listaQuestoesAnalise(id_user);
+
+    return response.json(questoes)
+  }
+
+  public async minhasQuestoesAprovadas(request: Request, response: Response): Promise<Response> {
     const id_user = request.params.id_user;
     const listQuestion = new ListQuestao();
 

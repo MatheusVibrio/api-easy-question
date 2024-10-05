@@ -104,6 +104,30 @@ public async listaQuestoesUserAprovadas(id_user: string): Promise<number> {
     return result;
 }
 
+public async listaQuestoesUserAnalise(id_user: string): Promise<number> {
+  const query = `
+      SELECT qt.id_questao,
+             qt.enunciado,
+             cs.descricao AS curso,
+             ds.descricao AS disciplina,
+             tp.descricao AS tipo,
+             df.descricao AS dificuldade
+      FROM questao qt
+      INNER JOIN disciplina ds ON ds.id_disciplina = qt.fk_id_disciplina
+      INNER JOIN curso cs ON ds.fk_id_curso = cs.id_curso
+      INNER JOIN questao_tipo tp ON tp.id_tipo = qt.fk_tipo
+      INNER JOIN questao_dificuldade df ON df.id_dificuldade = qt.fk_id_dificuldade
+      INNER JOIN usuarios us ON us.fk_id_curso = cs.id_curso
+      WHERE qt.fg_aprovada = 'A'
+      and qt.fk_id_usuario = $1
+      ORDER BY qt.enunciado ASC;
+    `;
+
+    const result = await this.query(query, [id_user]);
+
+    return result;
+}
+
 public async listaQuestaoDetalhes(id_questao: string): Promise<any[]> {
   const query = `
       select qt.id_questao,
