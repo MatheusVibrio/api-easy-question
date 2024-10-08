@@ -24,6 +24,7 @@ disciplinasrouter.post(
   disciplinaController.create,
 );
 
+disciplinasrouter.delete('/:id_disciplina', isAuthenticated ,disciplinaController.deletaDisciplina); // questões aprovadas por usuário
 
 
 export default disciplinasrouter

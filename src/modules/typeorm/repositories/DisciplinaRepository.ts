@@ -27,7 +27,17 @@ class DisciplinaRepository extends Repository<Disciplina> {
   });
 
   return disciplinas;
-}
+  }
+
+   public async deleteDisciplina(id_disciplina: string): Promise<boolean> {
+     let isDeleted = false;
+
+     // Agora exclui a questão em si
+     await this.delete(id_disciplina);
+
+     isDeleted = true
+     return isDeleted
+  }
 }
 
 export default DisciplinaRepository;
