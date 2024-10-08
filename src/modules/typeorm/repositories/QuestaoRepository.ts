@@ -105,20 +105,23 @@ public async listaQuestoesUserAprovadas(id_user: string): Promise<number> {
     return result;
 }
 
-public async listaQuestoesUserAnalise(id_curso: string): Promise<number> {
+public async listaQuestoesUserAnalise(id_curso: string): Promise<any[]> {
   const query = `
       SELECT qt.id_questao,
              qt.enunciado,
              cs.descricao AS curso,
              ds.descricao AS disciplina,
              tp.descricao AS tipo,
-             df.descricao AS dificuldade
+             df.descricao AS dificuldade,
+             qr.descricao as resposta,
+             qr.fg_correta
       FROM questao qt
       INNER JOIN disciplina ds ON ds.id_disciplina = qt.fk_id_disciplina
       INNER JOIN curso cs ON ds.fk_id_curso = cs.id_curso
       INNER JOIN questao_tipo tp ON tp.id_tipo = qt.fk_tipo
       INNER JOIN questao_dificuldade df ON df.id_dificuldade = qt.fk_id_dificuldade
       INNER JOIN usuarios us ON us.fk_id_curso = cs.id_curso
+      left join questao_resposta qr on (qr.fk_id_questao = qt.id_questao)
       WHERE qt.fg_aprovada = 'A'
       and cs.id_curso = $1
       ORDER BY qt.id_questao ASC;

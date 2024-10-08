@@ -43,13 +43,50 @@ class ListUserService {
     return questions;
   }
 
-  public async listaQuestoesAnalise(id_curso: string): Promise<number> {
+  public async listaQuestoesAnalise(id_curso: string): Promise<any[]> {
     const questionsRepository = getCustomRepository(QuestaoRepository);
 
-    const questions = questionsRepository.listaQuestoesUserAnalise(id_curso);
+    // Obtém os resultados brutos da query
+    const rawQuestions = await questionsRepository.listaQuestoesUserAnalise(id_curso);
 
-    return questions;
+    // Verifica se foram encontradas questões
+    if (!rawQuestions || rawQuestions.length === 0) {
+      throw new Error('Nenhuma questão encontrada');
+    }
+
+    // Mapeia os resultados para agrupar as respostas por questão
+    const questoesAgrupadas: any[] = [];
+
+    rawQuestions.forEach((raw: any) => {
+      // Verifica se a questão já foi adicionada ao array
+      let questaoExistente = questoesAgrupadas.find(q => q.id_questao === raw.id_questao);
+
+      // Se não foi, cria um novo objeto de questão
+      if (!questaoExistente) {
+        questaoExistente = {
+          id_questao: raw.id_questao,
+          enunciado: raw.enunciado,
+          curso: raw.curso,
+          disciplina: raw.disciplina,
+          tipo: raw.tipo,
+          dificuldade: raw.dificuldade,
+          respostas: []  // Cria um array para armazenar as respostas
+        };
+        questoesAgrupadas.push(questaoExistente);
+      }
+
+      // Adiciona a resposta à lista de respostas da questão
+      if (raw.resposta) {
+        questaoExistente.respostas.push({
+          descricao: raw.resposta,
+          correta: raw.fg_correta === 'S' ? true : false,
+        });
+      }
+    });
+
+    return questoesAgrupadas;
   }
+
 
   public async listaDetalhes(id_questao: string): Promise<any> {
     const questionsRepository = getCustomRepository(QuestaoRepository);
