@@ -139,6 +139,7 @@ public async listaQuestaoDetalhes(id_questao: string): Promise<any[]> {
              cs.descricao as curso,
              ds.descricao as disciplina,
              df.descricao as dificuldade,
+             tp.id_tipo as tipo,
              qm.marcador,
              qr.descricao as resposta,
              qr.fg_correta

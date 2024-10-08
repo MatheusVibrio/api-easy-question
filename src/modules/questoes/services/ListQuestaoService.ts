@@ -105,6 +105,7 @@ class ListUserService {
       questao: rawDetails[0].enunciado,  // Usei 'enunciado' no lugar de 'questao', pois parece ser o nome correto no banco
       disciplina: rawDetails[0].disciplina,
       dificuldade: rawDetails[0].dificuldade,
+      tipo: rawDetails[0].tipo,
       marcadores: new Set(),  // Usamos Set para evitar duplicatas
       respostas: []  // Onde vamos adicionar as respostas
     };
