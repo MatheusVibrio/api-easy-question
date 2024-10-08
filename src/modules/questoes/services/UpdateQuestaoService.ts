@@ -5,10 +5,11 @@ import QuestaoRepository from '@modules/typeorm/repositories/QuestaoRepository';
 interface IRequest {
   fg_aprovada: string; // Assumindo que seja 'S' ou 'N', ou um valor semelhante
   id_questao: string;
+  comentario: string;
 }
 
 class UpdateQuestaoService {
-public async execute({ fg_aprovada, id_questao }: IRequest): Promise<Questao> {
+public async execute({ fg_aprovada, id_questao, comentario }: IRequest): Promise<Questao> {
   const questaoRepository = getCustomRepository(QuestaoRepository);
 
   // Encontrar a questão pelo id_questao
@@ -20,6 +21,10 @@ public async execute({ fg_aprovada, id_questao }: IRequest): Promise<Questao> {
 
   // Atualiza o campo fg_aprovada
   questao.fg_aprovada = fg_aprovada;
+
+  if (comentario != ''){
+    questao.comentario = comentario;
+  }
 
   // Salva as alterações no banco de dados
   await questaoRepository.save(questao);

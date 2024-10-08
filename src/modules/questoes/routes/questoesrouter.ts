@@ -63,9 +63,11 @@ questionRouter.put(
     [Segments.BODY]: {
       fg_aprovada: Joi.string().required(),
       id_questao: Joi.number().required(),
+      comentario: Joi.string().allow(''), // Permite string vazia
     },
   }),
   questionController.update,
 );
+
 
 export default questionRouter

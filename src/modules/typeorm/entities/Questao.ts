@@ -13,6 +13,9 @@ class Questao {
   enunciado: string;
 
   @Column()
+  comentario: string;
+
+  @Column()
   fg_aprovada: string;
 
   @ManyToOne(() => QuestaoTipo)

@@ -172,13 +172,14 @@ export default class QuestoesController {
   }
 
    public async update(request: Request, response: Response): Promise<Response> {
-    const { fg_aprovada, id_questao} = request.body;
+    const { fg_aprovada, id_questao, comentario} = request.body;
 
     try {
       const updateQuestion = new UpdateQuestaoService();
       const updatedQuestion = await updateQuestion.execute({
         fg_aprovada,
         id_questao,
+        comentario,
       });
 
       return response.json(updatedQuestion);
