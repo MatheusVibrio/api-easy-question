@@ -136,6 +136,7 @@ public async listaQuestaoDetalhes(id_questao: string): Promise<any[]> {
              cs.descricao as curso,
              ds.descricao as disciplina,
              df.descricao as dificuldade,
+             qm.marcador,
              qr.descricao as resposta,
              qr.fg_correta
       from questao qt
@@ -144,6 +145,7 @@ public async listaQuestaoDetalhes(id_questao: string): Promise<any[]> {
       inner join questao_tipo tp on (tp.id_tipo = qt.fk_tipo)
       inner join questao_dificuldade df on (df.id_dificuldade = qt.fk_id_dificuldade)
       left join questao_resposta qr on (qr.fk_id_questao = qt.id_questao)
+      left join questao_marcadores qm on (qt.id_questao = qm.fk_id_questao)
       where qt.id_questao  = $1
     `;
 
