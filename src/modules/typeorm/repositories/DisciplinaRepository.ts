@@ -29,7 +29,7 @@ class DisciplinaRepository extends Repository<Disciplina> {
   return disciplinas;
   }
 
-   public async deleteDisciplina(id_disciplina: string): Promise<boolean> {
+  public async deleteDisciplina(id_disciplina: string): Promise<boolean> {
      let isDeleted = false;
 
      // Agora exclui a questão em si
