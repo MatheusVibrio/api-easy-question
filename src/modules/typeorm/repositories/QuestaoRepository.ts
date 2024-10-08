@@ -111,7 +111,7 @@ public async listaQuestoesUserAnalise(id_curso: string): Promise<any[]> {
              qt.enunciado,
              cs.descricao AS curso,
              ds.descricao AS disciplina,
-             tp.descricao AS tipo,
+             tp.id_tipo AS tipo,
              df.descricao AS dificuldade,
              qr.descricao as resposta,
              qr.fg_correta

@@ -45,22 +45,28 @@ class ListUserService {
 
   public async listaQuestoesAnalise(id_curso: string): Promise<any[]> {
     const questionsRepository = getCustomRepository(QuestaoRepository);
-
+  
     // Obtém os resultados brutos da query
     const rawQuestions = await questionsRepository.listaQuestoesUserAnalise(id_curso);
-
+  
     // Verifica se foram encontradas questões
     if (!rawQuestions || rawQuestions.length === 0) {
       throw new Error('Nenhuma questão encontrada');
     }
-
+  
+    // Define o tipo para as respostas
+    type Resposta = {
+      descricao: string;
+      correta: boolean;
+    };
+  
     // Mapeia os resultados para agrupar as respostas por questão
     const questoesAgrupadas: any[] = [];
-
+  
     rawQuestions.forEach((raw: any) => {
       // Verifica se a questão já foi adicionada ao array
       let questaoExistente = questoesAgrupadas.find(q => q.id_questao === raw.id_questao);
-
+  
       // Se não foi, cria um novo objeto de questão
       if (!questaoExistente) {
         questaoExistente = {
@@ -70,23 +76,26 @@ class ListUserService {
           disciplina: raw.disciplina,
           tipo: raw.tipo,
           dificuldade: raw.dificuldade,
-          respostas: []  // Cria um array para armazenar as respostas
+          respostas: [] as Resposta[] // Cria um array para armazenar as respostas com o tipo Resposta
         };
         questoesAgrupadas.push(questaoExistente);
       }
-
-      // Adiciona a resposta à lista de respostas da questão
-      if (raw.resposta) {
+  
+      // Verifica se a resposta já existe antes de adicionar
+      const respostaExistente = questaoExistente.respostas.find((r: Resposta) => r.descricao === raw.resposta);
+  
+      // Se a resposta ainda não foi adicionada, insere
+      if (!respostaExistente && raw.resposta) {
         questaoExistente.respostas.push({
           descricao: raw.resposta,
           correta: raw.fg_correta === 'S' ? true : false,
         });
       }
     });
-
+  
     return questoesAgrupadas;
   }
-
+  
 
   public async listaDetalhes(id_questao: string): Promise<any> {
     const questionsRepository = getCustomRepository(QuestaoRepository);
