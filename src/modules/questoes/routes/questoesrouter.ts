@@ -13,7 +13,7 @@ questionRouter.get('/:id_user', isAuthenticated ,questionController.questoesUser
 questionRouter.get('/minhasquestoes/:id_user', isAuthenticated ,questionController.minhasQuestoes); // todas questões por usuário (detalhes)
 questionRouter.get('/minhasquestoes/reprovadas/:id_user', isAuthenticated ,questionController.minhasQuestoesReprovadas); // todas questões por usuário reprovadas (detalhes)
 questionRouter.get('/minhasquestoes/aprovadas/:id_user', isAuthenticated ,questionController.minhasQuestoesAprovadas); // todas questões por usuário aprovadas (detalhes)
-questionRouter.get('/minhasquestoes/analise/:id_user', isAuthenticated ,questionController.minhasQuestoesAnalise); // todas questões para análise
+questionRouter.get('/minhasquestoes/analise/:id_curso', isAuthenticated ,questionController.minhasQuestoesAnalise); // todas questões para análise
 
 questionRouter.get('/detalhes/:id_questao', isAuthenticated ,questionController.detalhesQuestoes); // detalhe questão por questão (card)
 

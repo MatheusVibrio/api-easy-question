@@ -43,10 +43,10 @@ class ListUserService {
     return questions;
   }
 
-    public async listaQuestoesAnalise(id_user: string): Promise<number> {
+    public async listaQuestoesAnalise(id_curso: string): Promise<number> {
     const questionsRepository = getCustomRepository(QuestaoRepository);
 
-    const questions = questionsRepository.listaQuestoesUserAnalise(id_user);
+    const questions = questionsRepository.listaQuestoesUserAnalise(id_curso);
 
     return questions;
   }
