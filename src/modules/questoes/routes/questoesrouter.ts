@@ -69,5 +69,27 @@ questionRouter.put(
   questionController.update,
 );
 
+questionRouter.put(
+  '/alterar',
+  isAuthenticated,
+  celebrate({
+    [Segments.BODY]: {
+      id_questao: Joi.number().required(),
+      questao: Joi.string().required(),
+      fk_id_disciplina: Joi.number().required(),
+      fk_id_dificuldade: Joi.number().required(),
+      marcadores: Joi.array().items(Joi.string()).required(), // Array de strings
+      respostas: Joi.array().items(
+        Joi.object({
+          resposta: Joi.string().required(),
+          correta: Joi.string().valid('S', 'N').required(), // 'S' ou 'N' para correta
+        })
+      ).required(), // Array de objetos
+    },
+  }),
+  questionController.updateQuestion,
+);
+
+
 
 export default questionRouter

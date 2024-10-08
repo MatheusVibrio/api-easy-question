@@ -192,5 +192,29 @@ export default class QuestoesController {
     }
   }
 
+  public async updateQuestion(request: Request, response: Response): Promise<Response> {
+    const { id_questao, questao, fk_id_disciplina, fk_id_dificuldade, marcadores, respostas } = request.body;
+
+    try {
+      const updateQuestion = new UpdateQuestaoService();
+      const updatedQuestion = await updateQuestion.updateQuestion({
+        id_questao,
+        questao,
+        fk_id_disciplina,
+        fk_id_dificuldade,
+        marcadores,
+        respostas
+      });
+
+      return response.json(updatedQuestion);
+    } catch (error) {
+      console.error('Erro ao atualizar a questão:', error);
+      return response.status(500).json({
+        status: 'error',
+        message: 'Internal Server Error',
+      });
+    }
+  }
+
 
 }
