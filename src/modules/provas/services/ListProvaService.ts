@@ -11,6 +11,13 @@ class ListProvaService {
       return provas;
     }
 
+    public async listarTodasSistema(): Promise<number> {
+      const provaRepository = getCustomRepository(ProvaRepository);
+      const count = await provaRepository.count();
+
+      return count;
+    }
+
 }
 
 export default ListProvaService;

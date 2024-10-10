@@ -8,7 +8,9 @@ import ProvaController from '../controller/ProvaController';
 const provaRouter = Router();
 const provaController = new ProvaController();
 
+provaRouter.get('/quantidade', isAuthenticated ,provaController.listSistema); // lista a quantidade de provas geradas no sistema
 provaRouter.get('/:id_user', isAuthenticated ,provaController.list); // lista todas as provas dado o user
+
 
 provaRouter.post(
   '/',
