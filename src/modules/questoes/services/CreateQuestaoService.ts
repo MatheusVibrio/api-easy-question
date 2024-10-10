@@ -23,7 +23,7 @@ class CreateQuestaoService {
     const vDificuldade = getCustomRepository(DificuldadeRepository);
     const vDisciplina = getCustomRepository(DisciplinaRepository);
     const vQuestaoTipo = getCustomRepository(QuestaoTipoRepository);
-
+    const vUsuarioTipo = getCustomRepository(QuestaoTipoRepository);
 
     const tipo = await vQuestaoTipo.findById(fk_tipo);
     const user = await vUser.findByid(fk_id_usuario);
@@ -46,9 +46,17 @@ class CreateQuestaoService {
       throw new AppError('Disciplina não encontrada.');
     }
 
+    const tipoUser = user.fk_id_tipo.id_tipo;
+
+    if (typeof tipoUser === 'number' && (tipoUser === 2 || tipoUser === 3)) {
+      fg_aprovada = 'S';
+    } else {
+      fg_aprovada = 'A';
+    }
+
     const question = vQuestionRepository.create({
       enunciado,
-      fg_aprovada: 'A',
+      fg_aprovada,
       fk_tipo: tipo,
       fk_id_usuario: user,
       fk_id_dificuldade: dificuldade,
