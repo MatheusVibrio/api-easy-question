@@ -14,6 +14,15 @@ export default class ProvaController {
     return response.json(provas)
   }
 
+  public async listProvaDet(request: Request, response: Response): Promise<Response> {
+    const id_prova = request.params.id_prova
+    const listProva = new ListProvaService();
+
+    const prova = await listProva.listarProvaDet(id_prova);
+
+    return response.json(prova)
+  }
+
   public async listSistema(request: Request, response: Response): Promise<Response> {
     const listProva = new ListProvaService()
 
