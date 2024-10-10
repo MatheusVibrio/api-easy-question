@@ -11,7 +11,7 @@ const provaController = new ProvaController();
 provaRouter.get('/quantidade', isAuthenticated ,provaController.listSistema); // lista a quantidade de provas geradas no sistema
 provaRouter.get('/:id_user', isAuthenticated ,provaController.list); // lista todas as provas dado o user
 
-provaRouter.get('/det/:id_prova', isAuthenticated ,provaController.listProvaDet); // lista todas as provas dado o user
+provaRouter.get('/det/:id_prova', isAuthenticated ,provaController.listProvaDet); // lista a prova e suas questões
 
 
 provaRouter.post(
@@ -41,6 +41,8 @@ provaRouter.post(
 );
 
 provaRouter.delete('/:id_prova', isAuthenticated ,provaController.delete); // questões aprovadas por usuário
+provaRouter.delete('/questoes/deleta/:id_lcto', isAuthenticated ,provaController.deleteQuestaoProva); // questões aprovadas por usuário
+
 
 export default provaRouter
 

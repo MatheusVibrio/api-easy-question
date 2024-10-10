@@ -66,4 +66,15 @@ export default class ProvaController {
 
     return response.json(prova);
   }
+
+  public async deleteQuestaoProva(request: Request, response: Response): Promise<Response> {
+    const id_lcto = request.params.id_lcto
+
+    const deletaQuestion = new DeleteProvaService();
+
+    // Passa a lista de respostas para o método executeQuestoes
+    const question = await deletaQuestion.deletaQuestionProva(id_lcto);
+
+    return response.json(question);
+  }
 }
