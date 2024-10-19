@@ -19,6 +19,20 @@ class CursoRepository extends Repository<Curso>{
     const cursos = await this.find();
     return cursos;
   }
+
+  public async findByUser(id_usuario: string): Promise<Curso[]> {
+    const query = `
+      SELECT cs.*
+      FROM curso cs
+      INNER JOIN usuarios us ON (us.fk_id_curso = cs.id_curso)
+      WHERE us.id_usuario = $1
+    `;
+
+    const result = await this.query(query, [id_usuario]);
+
+    return result;
+  }
+
 }
 
 export default CursoRepository;

@@ -11,6 +11,14 @@ class ListCursoService {
       return cursos;
     }
 
+    public async listarPorUser(id_usuario: string): Promise<Curso[]> {
+      const cursoRepository = getCustomRepository(CursoRepository);
+
+      const cursos = cursoRepository.findByUser(id_usuario);
+
+      return cursos;
+    }
+
 }
 
 export default ListCursoService;
