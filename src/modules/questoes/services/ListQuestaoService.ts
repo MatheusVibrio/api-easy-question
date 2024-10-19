@@ -115,6 +115,7 @@ class ListUserService {
       disciplina: rawDetails[0].disciplina,
       dificuldade: rawDetails[0].dificuldade,
       tipo: rawDetails[0].tipo,
+      comentario: rawDetails[0].comentario,
       marcadores: new Set(),  // Usamos Set para evitar duplicatas
       respostas: []  // Onde vamos adicionar as respostas
     };

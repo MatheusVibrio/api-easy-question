@@ -140,6 +140,7 @@ class QuestaoRepository extends Repository<Questao>{
               ds.descricao as disciplina,
               df.descricao as dificuldade,
               tp.id_tipo as tipo,
+              qt.comentario,
               qm.marcador,
               qr.descricao as resposta,
               qr.fg_correta
