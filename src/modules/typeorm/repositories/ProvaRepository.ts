@@ -28,7 +28,8 @@ class ProvaRepository extends Repository<Prova> {
 
   public async findByIdUser(id_usuario: string): Promise<Prova[]> {
     const query = `
-      select pr.descricao,
+      select pr.id_prova,
+             pr.descricao,
              ds.descricao as disciplina,
              cs.descricao as curso,
              (select count(*) from prova_questao qt where qt.fk_id_prova = pr.id_prova) as questoes
