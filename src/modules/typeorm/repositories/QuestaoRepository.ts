@@ -90,7 +90,8 @@ class QuestaoRepository extends Repository<Questao>{
               cs.descricao as curso,
               ds.descricao as disciplina,
               tp.descricao as tipo,
-              df.descricao as dificuldade
+              df.descricao as dificuldade,
+              qt.fk_id_disciplina
         from questao qt
         inner join disciplina ds on (ds.id_disciplina = qt.fk_id_disciplina)
         inner join curso cs on (ds.fk_id_curso = cs.id_curso)
