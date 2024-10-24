@@ -46,19 +46,25 @@ class ProvaRepository extends Repository<Prova> {
 
   public async findByIdProva(id_prova: string): Promise<Prova | any> {
     const query = `
-      select pr.descricao as prova,
-             ds.descricao as disciplina,
-             pq.id_lcto,
-             pq.ordem,
-             qt.enunciado,
-             qd.descricao as dificuldade
+      select  pr.descricao as prova,
+              ds.descricao as disciplina,
+              cs.descricao as curso,
+              pq.id_lcto,
+              pq.ordem,
+              qt.enunciado,
+              qd.descricao as dificuldade,
+              qr.descricao as resposta,
+              qr.fg_correta,
+              qt.id_questao
       from prova pr
       inner join disciplina ds on (ds.id_disciplina = pr.fk_id_disciplina)
+      inner join curso cs on (ds.fk_id_curso = cs.id_curso)
       inner join prova_questao pq on (pr.id_prova = pq.fk_id_prova)
       inner join questao qt on (pq.fk_id_questao = qt.id_questao)
       inner join questao_dificuldade qd on (qd.id_dificuldade = qt.fk_id_dificuldade)
+      left join questao_resposta qr on (qr.fk_id_questao = qt.id_questao)
       where pr.id_prova = $1
-      order by pq.ordem asc;
+      order by pq.ordem asc, qt.id_questao ;
     `;
 
     const result = await this.query(query, [id_prova]);

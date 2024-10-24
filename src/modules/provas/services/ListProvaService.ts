@@ -24,26 +24,41 @@ class ListProvaService {
 
       // Estrutura inicial da resposta
       const provaResposta: any = {
-        prova: rawDetails[0].prova,        // Dados da prova
+        prova: rawDetails[0].prova,         // Dados da prova
         disciplina: rawDetails[0].disciplina,  // Dados da disciplina
+        curso: rawDetails[0].curso,
         questoes: []  // Lista vazia para armazenar as questões formatadas
       };
 
       // Preenche a lista de questões
       rawDetails.forEach((detail: any) => {
-        // Adiciona a questão se ela não estiver na lista de questões (verifica a ordem)
-        if (!provaResposta.questoes.some((questao: any) => questao.ordem === detail.ordem)) {
-          provaResposta.questoes.push({
-            id_lcto : detail.id_lcto,
-            ordem: detail.ordem,            // Ordem da questão
-            enunciado: detail.enunciado,    // Enunciado da questão
-            dificuldade: detail.dificuldade // Nível de dificuldade da questão
+        // Verifica se a questão já existe no array de questões
+        let questao = provaResposta.questoes.find((q: any) => q.ordem === detail.ordem);
+
+        // Se a questão ainda não estiver na lista, adiciona
+        if (!questao) {
+          questao = {
+            id_lcto: detail.id_lcto,
+            ordem: detail.ordem,             // Ordem da questão
+            enunciado: detail.enunciado,     // Enunciado da questão
+            dificuldade: detail.dificuldade, // Nível de dificuldade da questão
+            respostas: []                    // Inicializa o array de respostas vazio
+          };
+          provaResposta.questoes.push(questao);
+        }
+
+        // Adiciona a resposta atual no array de respostas da questão (se existir resposta)
+        if (detail.resposta) {
+          questao.respostas.push({
+            descricao: detail.resposta,     // Resposta da questão
+            fg_correta: detail.fg_correta   // Indica se a resposta é correta
           });
         }
       });
 
       return provaResposta;
     }
+
 
     public async listarTodasSistema(): Promise<number> {
       const provaRepository = getCustomRepository(ProvaRepository);
