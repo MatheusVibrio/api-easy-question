@@ -2,7 +2,14 @@ import { getCustomRepository } from 'typeorm';
 import Questao from '../../typeorm/entities/Questao';
 import QuestaoRepository from '../../typeorm/repositories/QuestaoRepository';
 
-class ListUserService {
+class ListQuestaoService {
+  public async listByDisciplina(fk_id_disciplina: string): Promise<number> {
+    const questionsRepository = getCustomRepository(QuestaoRepository);
+
+    const questions = questionsRepository.listbyDisciplina(fk_id_disciplina);
+
+    return questions;
+  }
   public async procuraAprovadas(): Promise<number> {
     const questionsRepository = getCustomRepository(QuestaoRepository);
 
@@ -145,4 +152,4 @@ class ListUserService {
 
 }
 
-export default ListUserService;
+export default ListQuestaoService;

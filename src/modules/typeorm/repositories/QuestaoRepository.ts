@@ -16,6 +16,16 @@ class QuestaoRepository extends Repository<Questao>{
     return count;
   }
 
+  public async listbyDisciplina(fk_id_disciplina: string): Promise<number> {
+    const count = await this.count({
+      where: {
+        fk_id_disciplina: fk_id_disciplina,
+      },
+    });
+
+    return count;
+  }
+
   public async countPorUsuario(id_user: string): Promise<number> {
     const count = await this.count({
       where: {

@@ -3,6 +3,7 @@ import CreateDisciplinaService from '../services/CreateDisciplinaService';
 import ListDiscplinaService from '../services/ListDisciplinaService';
 import DeleteDisciplina from '../services/DeleteDisciplina';
 import UpdateDisciplinaService from '../services/UpdateDisciplinaService';
+import ListQuestaoService from '@modules/questoes/services/ListQuestaoService';
 
 export default class DisciplinaController {
     public async create(request: Request, response: Response): Promise<Response> {
@@ -47,11 +48,21 @@ export default class DisciplinaController {
   public async deletaDisciplina(request: Request, response: Response): Promise<Response> {
     const id_disciplina = request.params.id_disciplina;
     const deletaDisciplina = new DeleteDisciplina();
+    const listByDisciplina = new ListQuestaoService();
 
     if (!id_disciplina) {
       return response.status(400).json({
         status: 'error',
         message: 'É obrigatório informar o id_disciplina.',
+      });
+    }
+
+    const numDisciplinas = await listByDisciplina.listByDisciplina(id_disciplina);
+
+    if (numDisciplinas > 0) {
+      return response.status(400).json({
+        status: 'error',
+        message: 'Disciplina vinculada a uma questão',
       });
     }
 
