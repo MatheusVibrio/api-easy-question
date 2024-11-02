@@ -25,8 +25,8 @@ export class QuestaoTipo1725367950795 implements MigrationInterface {
 
       await queryRunner.query(`
             INSERT INTO questao_tipo (descricao) VALUES
-            ('Discursiva'),
-            ('Objetiva');
+            ('Múltipla Escolha'),
+            ('Discursiva');
         `);
 
     }
